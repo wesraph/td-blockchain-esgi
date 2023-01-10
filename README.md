@@ -1,36 +1,43 @@
-# Installation de Foundry
+# Créer un ERC-20
+Dans le même répertoire que le TD précèdent, créer un nouveau contrat "ERC20.sol" et le fichier de test associé.
 
-Suivre la documentation au lien suivant: https://book.getfoundry.sh/getting-started/installation
+Comme indiqué dans le cours, un ERC-20 doit implémenter les fonctions suivantes:
 
-### Linux/MacOS:
-```
-curl -L https://foundry.paradigm.xyz | bash
-foundryup
-```
-
-## Initialisation du projet
-```
-forge init myproject
-```
-
-## Verification du fonctionnement de Foundry
-
-Aller dans le dossier "myproject" et lancer la commande
-```
-forge test
+```solidity
+function name() public view returns (string)
+function symbol() public view returns (string)
+function decimals() public view returns (uint8)
+function totalSupply() public view returns (uint256)
+function balanceOf(address _owner) public view returns (uint256 balance)
+function transfer(address _to, uint256 _value) public returns (bool success)
+function approve(address _spender, uint256 _value) public returns (bool success)
+function transferFrom(address _from, address _to, uint256 _value) public returns (bool success)
+function allowance(address _owner, address _spender) public view returns (uint256 remaining)
 ```
 
-Le résultat doit ressembler à:
+ainsi qu'émettre les évènements suivants:
 ```
-[⠒] Compiling...
-No files changed, compilation skipped
-
-Running 2 tests for test/Counter.t.sol:CounterTest
-[PASS] testIncrement() (gas: 28356)
-[PASS] testSetNumber(uint256) (runs: 256, μ: 27642, ~: 28342)
-Test result: ok. 2 passed; 0 failed; finished in 7.77ms
+event Transfer(address indexed _from, address indexed _to, uint256 _value)
+event Approval(address indexed _owner, address indexed _spender, uint256 _value)
 ```
 
-##
+## Description des fonctions
 
-Pour aller à la prochaine étape du TD, aller dans la branche ``td-02-premier-contrat``
+##### Name
+Retourne le nom du token. C'est le nom qui sera affiché sur les explorers.
+##### Symbol
+La fonction symbol doit retourner le symbol du token. Généralement il est composé de trois caractères en majuscule mais il est courant d'en voir quatre ou cinq. Exemple: BNB, ETH, XIV, XRP
+##### Decimals
+Decimals est optionnel mais fortement recommendée. Elle indique le nombre de décimales après la virgule maximal qui est accepté. La valeur la plus commune est 19. La plus petite valeur échangeable de votre token sera alors de 0.0000000000000000001 token.
+##### Total supply
+Indique le nombre total de tokens existant. Elle peut varier au cours du temps.
+##### BalanceOf
+Retourne la balance de l'adresse indiquée (le nombre de tokens en sa possession).
+##### Transfer
+Transfère ``value`` tokens du compte de l'appelant vers le compte de ``_to``
+##### Approve
+Autorise ``_spender`` à dépenser ``_value`` tokens de celui qui appelle la fonction
+##### Allowance
+Retourne combien ``_spender``  peut dépenser de tokens de ```_owner`` (précedemment autorisé via ``approve``)
+##### TransferFrom
+Transfer ``_value`` tokens de ``_from`` vers ``_to``. Pour que le transfer soit possible, ``_from`` doit avoir approuvé (avec ``approve``) l'adresse effectuant la transaction
