@@ -5,7 +5,7 @@
 forge test
 ```
 
-### Questions:
+### Questions
 - Quel est le chemin (nom du fichier) du smart contract ?
 - Quel est le chemin du fichier de test ?
 
@@ -118,6 +118,71 @@ function testCallsCounter() public {
 }
 ```
 
+### Exercice supplémentaire sur les mappings
+Le mapping permet d'associer une clé à une valeur. Essayons de l'utiliser pour associer une chaine de caractères à un nombre.
+
+
+
+![Image clé valeur](imgs/1.png)
+
+Par défaut (en Solidity), si aucune valeur n'est associée à la clé, la valeur retournée sera 0.
+
+Ici si nous cherchons la valeur ``mappingWithString["bob"]``, la valeur sera 0.
+
+Si nous associons une valeur au mot "bob" ``mappingWithString["bob"] = 1;`` nous obtenons le schéma suivant:
+
+
+![Schéma 2](imgs/2.png)
+
+Nous pouvons maintenant récuperer cette valeur avec: ``mappingWithString["bob"]``, cela nous retournera 1.
+Si nous cherchons une valeur associée à une clé qui n'existe pas, par example ``mappingWithString["alice"]``, la valeur retournée sera 0.
+
+Associons maintenant une valeur à "alice":
+``mappingWithString["alice"] = 5;``
+
+
+
+![Schéma 3](imgs/3.png)
+
+Si nous cherchons la valeur associée à "bob" ``mappingWithString["bob"]`` nous aurons toujours la valeur 1. Cependant maintenant si nous cherchons la valeur associée à "alice", ``mappingWithString["alice"]``, nous aurons la valeur 5.
+
+### Questions
+On rajoute au **contrat** le mapping suivant:
+```
+mapping(string => uint) public mappingWithString;
+```
+Rajouter au contrat une fonction permettant d'écrire dans le mapping. La signature de la fonction est la suivante:
+```
+function writeIntoTheStringMapping(string memory key, uint256 value) public {
+
+}
+```
+
+Pour tester le bon fonctionnement de la fonction, vous pouvez vous aider du test suivant:
+```solidity
+function testWritingIntoTheTestMapping() public {
+    // Write into the test mapping a value
+    name.writeIntoTheStringMapping("bob", 123);
+
+    // Let's print the value associated with bob
+    console.log(
+        "The value associated with bob is",
+        name.mappingWithString("bob")
+    );
+}
+```
+N'oubliez pas de lancer la commande ``forge test`` avec ``-vv`` pour que les résultats de la commande ``console.log`` s'affichent.
+
+Essayer de rajouter le test ``name.writeIntoTheStringMapping("alice", 5555);`` et observer ce que la console affiche.
+Est-ce que ``name.mappingWithString("bob")`` retourne toujours la même valeur ?
+Que ce passe-t-il si on rajoute aux tests:
+```solidity
+console.log(
+        "The value associated with bob is",
+        name.mappingWithString("alice")
+);
+ ```
+
 ### Exercice
 Le constructeur est une fonction appelée lors de la création du contrat et uniquement lors de sa création.
 Sa syntaxe est la suivante:
@@ -137,6 +202,11 @@ L'opération "revert" permet d'annuler la transaction en cours et de revenir à 
 Sa syntaxe est la suivante:
 ```solidity
 require(my_condition, "this is an error message");
+```
+
+On pourra l'utiliser de la manière suivante:
+```solidity
+require(admin == msg.sender, "is not admin");
 ```
 
 Créer une fonction où seul le créateur du contrat peut mettre à jour la valeur storedName. Elle doit répondre aux tests suivant:
