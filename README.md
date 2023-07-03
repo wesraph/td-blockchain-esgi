@@ -256,7 +256,7 @@ function testGetCounterTimesTwo() public {
     name.setNameOnlyOwner("alice");
     assertEq(
         name.getNumberOfCallsTimesTwo(),
-        name.callsCounter(address(this)),
+        name.callsCounter(address(this))*2,
         "returned value must be 2*callsCounter"
     );
 }
