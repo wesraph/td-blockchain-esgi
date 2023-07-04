@@ -71,8 +71,7 @@ Que fait la fonction `function mint(uint amount) internal` ?
 Dans cet exercice nous allons reprendre le token précedemment créé en local et allons le déployer sur le testnet de Binance Smart Chain.
 
 Forge permet d'automatiser le procédé en utilisant une seul ligne de commande:
-``forge create --rpc-url https://data-seed-prebsc-1-s1.binance.org:8545/  --pr
-ivate-key VOTRE_CLE_PRIVÉE src/ERC20.sol:ERC20``
+``forge create --rpc-url https://data-seed-prebsc-1-s1.binance.org:8545/  --private-key VOTRE_CLE_PRIVÉE src/ERC20.sol:ERC20``
 
 Pour obtenir votre clé privée (utilisée pour signer la transaction), suivre la méthode suivante:
 https://raw.githubusercontent.com/wesraph/td-blockchain-esgi/td-03-creer-un-erc20/privatekey.mp4
